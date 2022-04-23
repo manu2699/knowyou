@@ -16,33 +16,48 @@ export default function MainPage() {
 		{
 			user: {},
 			isScanMode: false,
-			location: {}
+			location: {},
+			scannedUser: undefined
 		}
 	);
 
 	const [selfie, setIsSelfie] = React.useState(false);
+	// const [scannedUser, setScannedUser] = React.useState(null);
 
 	useEffect(function onLoad() {
-		getUser();
+		getUser("", (data) => {
+			setState({ user: data });
+		});
 	}, []);
 
-	async function getUser() {
+	async function getUser(userId = "", callBack) {
 		await doRequest({
-			url: `/api/user/`,
+			url: `/api/user/${userId}`,
 			method: "get",
 			onSuccess: (data) => {
-				setState({ user: data });
+				// setState({ user: data });
+				callBack && callBack(data);
 			},
 			onError: (err) => {}
 		});
 	}
 
-	function handleQRScan(data) {
-		console.log(data);
+	function findUser(scannedUserID) {
+		getUser(scannedUserID, (data) => {
+			setState({ scannedUser: data, isScanMode: false });
+		});
 	}
 
-	function handleQRScanError(err) {
-		console.error(err);
+	function handleQRScan(result, error) {
+		if (!!result) {
+			alert(result?.text);
+			if (result?.text) {
+				findUser(result?.text);
+			}
+		}
+		if (!!error) {
+			console.info(error);
+		}
 	}
 
 	function onScanStart() {
@@ -56,6 +71,28 @@ export default function MainPage() {
 			});
 		}
 		setState({ isScanMode: true });
+	}
+
+	function onScannedCancel() {
+		setState({
+			scannedUser: undefined
+		});
+	}
+	async function onScannedProceed() {
+		await doRequest({
+			url: `/api/knows`,
+			method: "post",
+			body: {
+				knownBy: state.user._id,
+				user: state.scannedUser._id,
+				atLocation: state.location
+			},
+			onSuccess: (data) => {
+				alert(`Added ${state.scannedUser.name} to your list of known people`);
+				setState({ scannedUser: undefined });
+			},
+			onError: (err) => {}
+		});
 	}
 
 	return (
@@ -99,19 +136,19 @@ export default function MainPage() {
 						<div className={styles.qrScanerContainer}>
 							<div className={styles.qrScannerCam}>
 								<QrReader
-									key='environment'
-									onResult={(result, error) => {
-										if (!!result) {
-											// setData(result?.text);
-											alert(result?.text);
-										}
-										if (!!error) {
-											console.info(error);
-										}
-									}}
+									key={
+										state.selfie ? "selfie" : "environment"
+									}
+									onResult={(result, error) =>
+										handleQRScan(result, error)
+									}
 									constraints={{
 										video: {
-											facingMode: { exact: "environment" }
+											facingMode: {
+												exact: selfie
+													? "environment"
+													: "face"
+											}
 										}
 									}}
 									style={{ width: "100%" }}
@@ -120,8 +157,13 @@ export default function MainPage() {
 							<div className={styles.qrActions}>
 								<Button
 									sx={{ m: 1, width: "max-width" }}
+									variant='outlined'
+									onClick={() => setIsSelfie(!selfie)}>
+									Switch Camera
+								</Button>
+								<Button
+									sx={{ m: 1, width: "max-width" }}
 									variant='contained'
-									// endIcon={<ChevronRightIcon />}
 									onClick={() =>
 										setState({ isScanMode: false })
 									}>
@@ -129,6 +171,25 @@ export default function MainPage() {
 								</Button>
 							</div>
 						</div>
+					</div>
+				)}
+				{state.scannedUser?.name && state.isScanMode === false && (
+					<div className={styles.qrScannerOverlay}>
+						<div className={styles.qrScanerContainer}>
+							<h4>Know {state.scannedUser?.name}</h4>
+							<Button
+								sx={{ m: 1, width: "max-width" }}
+								variant='outlined'
+								onClick={() => onScannedCancel()}>
+								Cancel
+							</Button>
+							<Button
+								sx={{ m: 1, width: "max-width" }}
+								variant='contained'
+								onClick={() => onScannedProceed()}>
+								Continue
+							</Button>
+						</div>s
 					</div>
 				)}
 			</div>
