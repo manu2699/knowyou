@@ -1,20 +1,14 @@
 import React, { lazy, Suspense } from "react";
-import { Route, BrowserRouter } from "react-router-dom";
-import Loader from "react-loader-spinner";
-// import PrivateRoute from "./utils/PrivateRoute";
-// import Register from "./components/RegistrationComponents/Register";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { Triangle } from "react-loader-spinner";
 
-// const MainPage = lazy(() => import("./components/Mainpage"));
-// const ArchitectHomePage = lazy(() => import("./components/architect"));
-// const JuniorHomePage = lazy(() => import("./components/Junior"));
-// const SeniorHomePage = lazy(() => import("./components/Senior"));
-// const AdminHomePage = lazy(() => import("./components/Admin"));
+const MainPage = lazy(() => import("./pages/Main"));
 
 function App() {
 	return (
 		<Suspense
 			fallback={
-				<Loader
+				<Triangle
 					className='centerPage'
 					type='Oval'
 					color='#1194ff'
@@ -23,14 +17,12 @@ function App() {
 				/>
 			}>
 			<BrowserRouter>
-				{/* <Route exact path='/' component={MainPage} />
-				<Route exact path='/login' component={Login} />
-				<PrivateRoute
-					exact
-					path='/user'
-					component={UserHomePage}
-				/>
+				<Routes>
+					<Route exact path='/login' element={<MainPage />} />
+					{/*
+				<Route exact path='/login' component={Register} />
 				/> */}
+				</Routes>
 			</BrowserRouter>
 		</Suspense>
 	);

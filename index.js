@@ -8,11 +8,9 @@ app.use(express.json());
 
 
 mongoose
-	.connect(`${process.env.DATABASE}`, {
+	.connect(`${process.env.MONGODB}`, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
-		useCreateIndex: true,
-		useFindAndModify: false
 	})
 	.then(
 		() => console.log("Connected to database"),
@@ -29,10 +27,10 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 const serveHost = process.env.YOUR_HOST || "0.0.0.0";
 
-var server = app.listen(port, serveHost, () => {
+app.listen(port, serveHost, () => {
 	console.log(`Server running on ${port}`);
 });
 
