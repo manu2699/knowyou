@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 
 import { QRCodeSVG } from "qrcode.react";
-import QrReader from "react-qr-scanner";
+import { QrReader } from "react-qr-reader";
 import Button from "@mui/material/Button";
 
 import doRequest from "./../utils/requestHooks";
@@ -19,6 +19,8 @@ export default function MainPage() {
 			location: {}
 		}
 	);
+
+	const [selfie, setIsSelfie] = React.useState(false);
 
 	useEffect(function onLoad() {
 		getUser();
@@ -49,7 +51,7 @@ export default function MainPage() {
 				let location = {
 					latitute: position.coords.latitude,
 					longitude: position.coords.longitude
-				}
+				};
 				setState({ location });
 			});
 		}
@@ -96,10 +98,26 @@ export default function MainPage() {
 					<div className={styles.qrScannerOverlay}>
 						<div className={styles.qrScanerContainer}>
 							<QrReader
-								delay={100}
-								onError={handleQRScanError}
-								onScan={handleQRScan}
-								facingMode={"rear"}
+								key='environment'
+								onResult={(result, error) => {
+									if (!!result) {
+										// setData(result?.text);
+										alert(result?.text);
+									}
+									if (!!error) {
+										console.info(error);
+									}
+								}}
+								constraints={{
+									video: {
+										facingMode: {
+											exact: !selfie
+												? "environment"
+												: "user"
+										}
+									}
+								}}
+								style={{ width: "500px" }}
 							/>
 							<div className={styles.qrActions}>
 								<Button
