@@ -1,4 +1,4 @@
-.mainPage {
+.mainPage, .pageContainer {
 	background-color: #d9f0f7;
 	width: 100vw;
 	height: 100vh;

@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.loaderPage {
+	background-color: #d9f0f7;
+	width: 100vw;
+	height: 100vh;
+  display: grid;
+  place-content: center;
+}
