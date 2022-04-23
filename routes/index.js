@@ -6,6 +6,6 @@ const KnowRoutes = require("./know");
 
 router.use("/auth", AuthRoutes);
 router.use("/user", UserRoute);
-router.use("/know", KnowRoutes);
+router.use("/knows", KnowRoutes);
 
 module.exports = router;
