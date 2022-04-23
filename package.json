@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"postinstall": "npm --prefix client install",
+		"postinstall": "npm --prefix client install --force",
 		"build": "npm --prefix client run build",
 		"start": "node index.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
