@@ -1,4 +1,6 @@
 import React, { useReducer } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 import FilledInput from "@mui/material/FilledInput";
 import IconButton from "@mui/material/IconButton";
@@ -17,6 +19,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function LoginPage() {
+	const navigate = useNavigate();
 	const [state, setState] = useReducer(
 		(oldState, newState) => ({ ...oldState, ...newState }),
 		{
@@ -37,9 +40,14 @@ export default function LoginPage() {
 		setState({ [key]: value });
 	}
 
-	function handleClickShowPassword() {}
+	function handleClickShowPassword(isConfirmPass = false) {
+		if (isConfirmPass) {
+			setState({ showCPassword: !state.showCPassword });
+		} else {
+			setState({ showPassword: !state.showPassword });
+		}
+	}
 
-	function handleMouseDownPassword() {}
 
 	function handlePrimaryAction() {
 		state.isNewUser ? handleSignup() : handleLogin();
@@ -53,7 +61,7 @@ export default function LoginPage() {
 			onSuccess: ({ data }) => {
 				localStorage.setItem("token", data.token);
 				localStorage.setItem("id", data.user._id);
-				// props.history.push(`/${type}`);
+				navigate(`/`);
 			},
 			onError: (err) => {
 				console.log(err);
@@ -157,8 +165,8 @@ export default function LoginPage() {
 							<InputAdornment position='end'>
 								<IconButton
 									aria-label='toggle password visibility'
-									onClick={handleClickShowPassword}
-									onMouseDown={handleMouseDownPassword}
+									onClick={() => handleClickShowPassword()}
+									// onMouseDown={() => handleMouseDownPassword()}
 									edge='end'
 									size='small'>
 									{state.showPassword ? (
@@ -190,8 +198,8 @@ export default function LoginPage() {
 								<InputAdornment position='end'>
 									<IconButton
 										aria-label='toggle password visibility'
-										onClick={handleClickShowPassword}
-										onMouseDown={handleMouseDownPassword}
+										onClick={() => handleClickShowPassword(true)}
+										// onMouseDown={() => handleMouseDownPassword(true)}
 										edge='end'
 										size='small'>
 										{state.showCPassword ? (

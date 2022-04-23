@@ -1,16 +1,13 @@
-// const express = require("express");
-// const router = express.Router();
-// const Verify = require("../middlewares/verify");
+const express = require("express");
+const router = express.Router();
+const Verify = require("../middlewares/verify");
+const userController = require("../controllers/user");
 
 // router.post(
-// 	"/signin",
-// 	ValidateReq,
-// 	AuthController.signIn
-// );
-// router.post(
-// 	"/signup",
-// 	ValidateReq,
-// 	verifyUser.signUp
+// 	"/",
+//   Verify.verifyUser
 // );
 
-// module.exports = router;
+router.get("/", Verify.verifyUser, userController.getUser);
+
+module.exports = router;

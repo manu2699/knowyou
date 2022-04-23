@@ -10,7 +10,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"server": "node index.js",
 		"client": "npm start --prefix client",
-		"dev": "concurrently \"npm run server\" \"npm run client\""
+		"dev": "concurrently \"nodemon\" \"npm run client\""
 	},
 	"engines": {
 		"node": "15.x"
@@ -27,6 +27,7 @@
 		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
-		"concurrently": "^7.1.0"
+		"concurrently": "^7.1.0",
+		"nodemon": "^2.0.15"
 	}
 }

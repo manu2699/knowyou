@@ -1,15 +1,11 @@
 const UserModel = require("../models/user");
-const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
 
 const getUser = async (req, res) => {
 	try {
-		let existingAccount = await UserModel.findOne({
-			email: req.body.email
+		let user = await UserModel.findOne({
+			_id: req.userData._id
 		});
-		if (existingAccount) {
-			//return res.status(200).json({ message: "Sign-up Completed" });
-		}
+		res.status(200).send(user);
 	} catch (e) {
 		console.log(e);
 		res.status(400).json({ message: "Some error occured :(" });

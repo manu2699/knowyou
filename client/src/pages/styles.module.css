@@ -1,7 +1,17 @@
-.mainPage, .pageContainer {
+.mainPage,
+.pageContainer {
 	background-color: #d9f0f7;
 	width: 100vw;
 	height: 100vh;
+	overflow: hidden;
+}
+
+.userContainer {
+	padding: 16px;
+	width: 100%;
+	height: 100%;
+	color: #004458;
+	position: relative;
 }
 
 .loginContainer {
@@ -9,11 +19,6 @@
 	height: 100%;
 	display: grid;
 	place-content: center;
-}
-
-.password {
-	width: 70%;
-	color: #004458;
 }
 
 .appName {
@@ -24,4 +29,63 @@
 	place-content: center;
 	font-weight: 600;
 	font-style: italic;
+}
+
+.userStats {
+	display: flex;
+	align-items: center;
+	margin: 12px 0;
+}
+
+.statCard {
+	width: 150px;
+}
+
+.statCard:first-of-type {
+	border-right: 1px solid #004458;
+}
+
+.statCard:last-of-type {
+	padding-inline-start: 16px;
+}
+
+.statCount {
+	font-size: 1.17em;
+	font-weight: bold;
+}
+
+.qrCodeContainer {
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	margin: 32px 0;
+	width: 350px;
+	height: max-content;
+}
+
+.qrScannerOverlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	background: #0000009c;
+	padding: 16px;
+}
+
+.qrScanerContainer {
+	position: relative;
+	/* width: 100%;
+	height: 100%; */
+	display: grid;
+	place-content: center;
+	width: 350px;
+	height: max-content;
+}
+
+.qrActions {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
