@@ -89,3 +89,8 @@
 	align-items: center;
 	justify-content: center;
 }
+
+.qrScannerCam {
+	width: 480px;
+	height: 500px;
+}

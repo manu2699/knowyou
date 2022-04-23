@@ -97,28 +97,26 @@ export default function MainPage() {
 				{state.isScanMode && (
 					<div className={styles.qrScannerOverlay}>
 						<div className={styles.qrScanerContainer}>
-							<QrReader
-								key='environment'
-								onResult={(result, error) => {
-									if (!!result) {
-										// setData(result?.text);
-										alert(result?.text);
-									}
-									if (!!error) {
-										console.info(error);
-									}
-								}}
-								constraints={{
-									video: {
-										facingMode: {
-											exact: !selfie
-												? "environment"
-												: "user"
+							<div className={styles.qrScannerCam}>
+								<QrReader
+									key='environment'
+									onResult={(result, error) => {
+										if (!!result) {
+											// setData(result?.text);
+											alert(result?.text);
 										}
-									}
-								}}
-								style={{ width: "500px" }}
-							/>
+										if (!!error) {
+											console.info(error);
+										}
+									}}
+									constraints={{
+										video: {
+											facingMode: { exact: "environment" }
+										}
+									}}
+									style={{ width: "100%" }}
+								/>
+							</div>
 							<div className={styles.qrActions}>
 								<Button
 									sx={{ m: 1, width: "max-width" }}
