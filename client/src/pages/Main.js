@@ -80,7 +80,7 @@ export default function MainPage() {
 	}
 	async function onScannedProceed() {
 		await doRequest({
-			url: `/api/knows`,
+			url: `/api/knows/`,
 			method: "post",
 			body: {
 				knownBy: state.user._id,
