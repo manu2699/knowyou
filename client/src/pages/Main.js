@@ -1,10 +1,12 @@
 import React, { useEffect, useReducer } from "react";
 
 import { QRCodeSVG } from "qrcode.react";
-import { QrReader } from "react-qr-reader";
+import jsQR from "jsqr";
+
 import Button from "@mui/material/Button";
 
 import doRequest from "./../utils/requestHooks";
+
 
 import styles from "./styles.module.css";
 
@@ -21,7 +23,7 @@ export default function MainPage() {
 		}
 	);
 
-	const [selfie, setIsSelfie] = React.useState(false);
+	let videoRef = React.useRef(null);
 	// const [scannedUser, setScannedUser] = React.useState(null);
 
 	useEffect(function onLoad() {
@@ -61,6 +63,9 @@ export default function MainPage() {
 	}
 
 	function onScanStart() {
+		setState({ isScanMode: true });
+		videoStreamTest();
+		// jsQRUtil(document);
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition((position) => {
 				let location = {
@@ -70,7 +75,6 @@ export default function MainPage() {
 				setState({ location });
 			});
 		}
-		setState({ isScanMode: true });
 	}
 
 	function onScannedCancel() {
@@ -88,11 +92,84 @@ export default function MainPage() {
 				atLocation: state.location
 			},
 			onSuccess: (data) => {
-				alert(`Added ${state.scannedUser.name} to your list of known people`);
+				alert(
+					`Added ${state.scannedUser.name} to your list of known people`
+				);
 				setState({ scannedUser: undefined });
 			},
 			onError: (err) => {}
 		});
+	}
+
+	function videoStreamTest() {
+		navigator.mediaDevices
+			.getUserMedia({
+				audio: false,
+				video: {
+					facingMode: "environment"
+				}
+			})
+			.then((mediaStream) => {
+				console.log("on video", mediaStream);
+				videoRef.current.srcObject = mediaStream;
+				videoRef.current.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+				videoRef.current.play();
+				requestAnimationFrame(() => {
+					onVideoStream(mediaStream, videoRef.current);
+				});
+			});
+	}
+
+	async function onVideoStream(stream, video) {
+		// console.log("video ready ", video.readyState);
+		if (stream) {
+			const videoTracks = await stream.getVideoTracks();
+			const videoTrackSettings = videoTracks[0].getSettings();
+
+			const canvasElement = document.createElement("canvas");
+			canvasElement.height = videoTrackSettings.height;
+			canvasElement.width = videoTrackSettings.width;
+
+			const canvasCtx = canvasElement.getContext("2d");
+			canvasCtx.drawImage(
+				video,
+				0,
+				0,
+				canvasElement.width,
+				canvasElement.height
+			);
+			var imageData = canvasCtx.getImageData(
+				0,
+				0,
+				canvasElement.width,
+				canvasElement.height
+			);
+			var code = jsQR(imageData.data, imageData.width, imageData.height, {
+				inversionAttempts: "dontInvert"
+			});
+			// const code = jsQR(stream, 400, 400);
+			if (code?.data) {
+				console.log("Found QR code", code);
+				alert(code.data);
+				findUser(code.data);
+				closeStream();
+			}
+			requestAnimationFrame(() => {
+				onVideoStream(stream, video);
+			});
+		}
+	}
+
+	function closeStream() {
+		const stream = videoRef.current.srcObject;
+		const tracks = stream.getTracks();
+
+		tracks.forEach(function (track) {
+			track.stop();
+		});
+
+		videoRef.current = undefined;
+		setState({ isScanMode: false });
 	}
 
 	return (
@@ -131,51 +208,32 @@ export default function MainPage() {
 					onClick={() => onScanStart()}>
 					Add knowns
 				</Button>
+
 				{state.isScanMode && (
 					<div className={styles.qrScannerOverlay}>
 						<div className={styles.qrScanerContainer}>
 							<div className={styles.qrScannerCam}>
-								<QrReader
-									key={
-										state.selfie ? "selfie" : "environment"
-									}
-									onResult={(result, error) =>
-										handleQRScan(result, error)
-									}
-									constraints={{
-										video: {
-											facingMode: {
-												exact: selfie
-													? "environment"
-													: "face"
-											}
-										}
-									}}
-									style={{ width: "100%" }}
-								/>
+								<video
+									ref={videoRef}
+									id='scanner'
+									muted
+									autoPlay></video>
 							</div>
 							<div className={styles.qrActions}>
 								<Button
 									sx={{ m: 1, width: "max-width" }}
-									variant='outlined'
-									onClick={() => setIsSelfie(!selfie)}>
-									Switch Camera
-								</Button>
-								<Button
-									sx={{ m: 1, width: "max-width" }}
 									variant='contained'
-									onClick={() =>
-										setState({ isScanMode: false })
-									}>
+									onClick={() => closeStream()}>
 									Cancel
 								</Button>
 							</div>
 						</div>
 					</div>
 				)}
+
 				{state.scannedUser?.name && state.isScanMode === false && (
 					<div className={styles.qrScannerOverlay}>
-						<div className={styles.qrScanerContainer}>
+						<div className={styles.qrScanerContainer2}>
 							<h4>Know {state.scannedUser?.name}</h4>
 							<Button
 								sx={{ m: 1, width: "max-width" }}
@@ -189,7 +247,8 @@ export default function MainPage() {
 								onClick={() => onScannedProceed()}>
 								Continue
 							</Button>
-						</div>s
+						</div>
+						s
 					</div>
 				)}
 			</div>
