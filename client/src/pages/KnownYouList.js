@@ -68,6 +68,7 @@ export default function KnownYouList() {
 						state.knownYou.map((knownMember) => (
 							<PersonCard
 								details={knownMember}
+								displayKey={"knownBy"}
 								onLocationClick={() => {
 									setState({ selectedPerson: knownMember });
 								}}

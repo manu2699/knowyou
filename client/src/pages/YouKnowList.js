@@ -68,6 +68,7 @@ export default function YowKnowList() {
 						state.youKnow.map((knownMember) => (
 							<PersonCard
 								details={knownMember}
+								displayKey={"user"}
 								onLocationClick={() =>
 									setState({ selectedPerson: knownMember })
 								}
@@ -80,8 +81,8 @@ export default function YowKnowList() {
 							className={`${styles.popupContainer} ${styles.mapPopup}`}>
 							<div className={styles.spacedRow}>
 								<div className={styles.strongFont}>
-									You met {" "}{state.selectedPerson?.knownBy?.name}{" "}
-									at
+									You met{" "}
+									{state.selectedPerson?.knownBy?.name} at
 								</div>
 								<IconButton
 									onClick={() =>
