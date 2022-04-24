@@ -7,6 +7,8 @@ import PrivateRoute from "./utils/PrivateRoute";
 const MainPage = lazy(() => import("./pages/Main"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const KnowMePage = lazy(() => import("./pages/KnowMe"));
+const KnownYouList = lazy(() => import("./pages/KnownYouList"));
+const YowKnowList = lazy(() => import("./pages/YouKnowList"));
 
 function App() {
 	return (
@@ -39,6 +41,24 @@ function App() {
 						element={
 							<PrivateRoute>
 								<KnowMePage />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						exact
+						path='/knowyoulist'
+						element={
+							<PrivateRoute>
+								<KnownYouList />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						exact
+						path='/iknowyou'
+						element={
+							<PrivateRoute>
+								<YowKnowList />
 							</PrivateRoute>
 						}
 					/>

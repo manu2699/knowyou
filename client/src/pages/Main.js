@@ -13,8 +13,7 @@ import styles from "./styles.module.css";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
-
-// import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 export default function MainPage() {
 	const navigate = useNavigate();
@@ -215,11 +214,26 @@ export default function MainPage() {
 				<div className={styles.userStats}>
 					<div className={styles.statCard}>
 						<h3>{state.youKnow?.length || 0}</h3>
-						<p className={styles.subdueFont}>You know</p>
+						<span className={styles.subdueFont}>
+							You know
+							<IconButton onClick={() => navigate("/iknowyou")}>
+								<ChevronRightIcon
+									sx={{ fontSize: 18, color: "#004458" }}
+								/>
+							</IconButton>
+						</span>
 					</div>
 					<div className={styles.statCard}>
 						<h3>{state.knownYou?.length || 0}</h3>
-						<p className={styles.subdueFont}>Known you </p>
+						<span className={styles.subdueFont}>
+							Known you
+							<IconButton
+								onClick={() => navigate("/knowyoulist")}>
+								<ChevronRightIcon
+									sx={{ fontSize: 18, color: "#004458" }}
+								/>
+							</IconButton>
+						</span>
 					</div>
 				</div>
 
