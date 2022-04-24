@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 
 import doRequest from "../utils/requestHooks";
 import PersonCard from "./../components/PersonCard";
-import MapView from "../components/ViewOnMap";
+import { SingleMapView } from "../components/ViewOnMap";
 
 import styles from "./styles.module.css";
 
@@ -95,7 +95,7 @@ export default function YowKnowList() {
 							</div>
 							{state.selectedPerson?.atLocation?.longitude &&
 							state.selectedPerson?.atLocation?.latitute ? (
-								<MapView
+								<SingleMapView
 									details={state.selectedPerson.atLocation}
 								/>
 							) : (

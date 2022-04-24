@@ -112,7 +112,7 @@ export default function MainPage() {
 			},
 			onError: (err) => {
 				if (typeof err === "object") alert(err[0].msg);
-				else if(err) alert(err);
+				else if (err) alert(err);
 				setState({ scannedUser: undefined });
 			}
 		});
@@ -214,6 +214,7 @@ export default function MainPage() {
 					</div>
 					<h3>{state.user?.name}</h3>
 					<h5>{state.user?.email}</h5>
+					<h6>{process.env.REACT_APP_NAME}</h6>
 				</div>
 				<div className={styles.userStats}>
 					<div className={styles.statCard}>
