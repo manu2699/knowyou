@@ -16,8 +16,6 @@ function App() {
 			fallback={
 				<div className='loaderPage'>
 					<Triangle
-						className=''
-						type='Oval'
 						color='#004458'
 						height={150}
 						width={150}

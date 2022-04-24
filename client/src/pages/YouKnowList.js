@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 
 import doRequest from "../utils/requestHooks";
 import PersonCard from "./../components/PersonCard";
-import { SingleMapView } from "../components/ViewOnMap";
+import { MapView } from "../components/GoogleMaps";
 
 import styles from "./styles.module.css";
 
@@ -95,8 +95,30 @@ export default function YowKnowList() {
 							</div>
 							{state.selectedPerson?.atLocation?.longitude &&
 							state.selectedPerson?.atLocation?.latitute ? (
-								<SingleMapView
-									details={state.selectedPerson.atLocation}
+								<MapView
+									referenceKey={"user"}
+									location={{
+										lat: state.selectedPerson.atLocation
+											.latitute,
+										lng: state.selectedPerson.atLocation
+											.longitude
+									}}
+									markers={[
+										{
+											atLocation: {
+												latitute:
+													state.selectedPerson
+														.atLocation.latitute,
+												longitude:
+													state.selectedPerson
+														.atLocation.longitude
+											},
+											user: {
+												name: state.selectedPerson.user
+													.name
+											}
+										}
+									]}
 								/>
 							) : (
 								<p>No location details found...</p>
