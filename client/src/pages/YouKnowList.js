@@ -62,7 +62,7 @@ export default function YowKnowList() {
 							sx={{ fontSize: 20, color: "#004458" }}
 						/>
 					</IconButton>
-					<h3>Know you</h3>
+					<h3>You Know</h3>
 				</div>
 				<span className={styles.subdueFont}>
 					Full Map view
@@ -91,8 +91,8 @@ export default function YowKnowList() {
 							className={`${styles.popupContainer} ${styles.mapPopup}`}>
 							<div className={styles.spacedRow}>
 								<div className={styles.strongFont}>
-									You met{" "}
-									{state.selectedPerson?.knownBy?.name} at
+									You met {state.selectedPerson?.user?.name}{" "}
+									at
 								</div>
 								<IconButton
 									onClick={() =>
