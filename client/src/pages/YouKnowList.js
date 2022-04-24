@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 export default function YowKnowList() {
 	const navigate = useNavigate();
@@ -63,6 +64,15 @@ export default function YowKnowList() {
 					</IconButton>
 					<h3>Know you</h3>
 				</div>
+				<span className={styles.subdueFont}>
+					Full Map view
+					<IconButton
+						onClick={() => setState({ isFullMapView: true })}>
+						<ChevronRightIcon
+							sx={{ fontSize: 18, color: "#004458" }}
+						/>
+					</IconButton>
+				</span>
 				<div className={styles.listContainer}>
 					{state.youKnow.length > 0 &&
 						state.youKnow.map((knownMember) => (
@@ -123,6 +133,31 @@ export default function YowKnowList() {
 							) : (
 								<p>No location details found...</p>
 							)}
+						</div>
+					</div>
+				)}
+
+				{state.isFullMapView && (
+					<div className={`${styles.popupOverlay}`}>
+						<div
+							className={`${styles.popupContainer} ${styles.mapPopup}`}>
+							<div className={styles.spacedRow}>
+								<div className={styles.strongFont}>
+									View all people you know
+								</div>
+								<IconButton
+									onClick={() =>
+										setState({ isFullMapView: false })
+									}>
+									<CloseIcon
+										sx={{ fontSize: 20, color: "#004458" }}
+									/>
+								</IconButton>
+							</div>
+							<MapView
+								referenceKey={"user"}
+								markers={[...state.youKnow]}
+							/>
 						</div>
 					</div>
 				)}

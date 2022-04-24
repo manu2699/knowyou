@@ -100,42 +100,54 @@ export function MapView({ location, markers = [], referenceKey }) {
 
 	useEffect(() => {
 		if (!location?.lat && !location?.lng) {
-			navigator.geolocation.getCurrentPosition((position) => {
-				setCurrLoc({
-					lat: position.coords.latitude,
-					lng: position.coords.longitude
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition((position) => {
+					if (
+						position?.coords?.latitude &&
+						position?.coords?.longitude
+					) {
+						setCurrLoc({
+							lat: position.coords.latitude,
+							lng: position.coords.longitude
+						});
+					}
 				});
-			});
-		} else if (location.lat && location.lng) {
+			}
+		} else if (location?.lat && location?.lng) {
 			setCurrLoc(location);
 		}
 	}, [location]);
 
 	return (
 		<div style={{ display: "flex", height: "450px", width: "100%" }}>
-			<Wrapper apiKey={"AIzaSyCOyQqkB7Wr01FK5Vl3VrpiA4nJDyKrB_c"}>
-				<Map
-					center={currLoc}
-					zoom={15}
-					style={{ flexGrow: "1", height: "100%" }}>
-					{markers.length > 0 &&
-						markers.map((marker, index) => {
-							console.log("Maker", marker, index);
-							return (
-								<Marker
-									position={{
-										lat: marker.atLocation.latitute,
-										lng: marker.atLocation.longitude
-									}}
-									content={marker[referenceKey]?.name}
-									icon={{
-										url: IMAGES[index % 3]
-									}}
-								/>
-							);
-						})}
-				</Map>
-			</Wrapper>
+			{currLoc?.lat && currLoc?.lng && (
+				<Wrapper apiKey={"AIzaSyCOyQqkB7Wr01FK5Vl3VrpiA4nJDyKrB_c"}>
+					<Map
+						center={currLoc}
+						zoom={15}
+						style={{ flexGrow: "1", height: "100%" }}>
+						{markers.length > 0 &&
+							markers.map((marker, index) => {
+								console.log("Maker", marker, index);
+								return (
+									marker?.atLocation?.latitute &&
+									marker?.atLocation?.latitute && (
+										<Marker
+											position={{
+												lat: marker.atLocation.latitute,
+												lng: marker.atLocation.longitude
+											}}
+											content={marker[referenceKey]?.name}
+											icon={{
+												url: IMAGES[index % 3]
+											}}
+										/>
+									)
+								);
+							})}
+					</Map>
+				</Wrapper>
+			)}
 		</div>
 	);
 }
