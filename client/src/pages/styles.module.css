@@ -44,11 +44,12 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	padding: 0 32px;
 }
 
 .statCard:last-of-type {
 	border-inline-start: 1px solid #004458;
-	padding-inline-start: 16px;
+	/* padding-inline-start: 16px; */
 }
 
 .statCount {
@@ -122,4 +123,12 @@
 	align-items: center;
 	justify-content: center;
 	box-shadow: 0 -2px 16px -2px #004458;
+	position: relative;
+}
+
+.logout{
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	cursor: pointer;
 }

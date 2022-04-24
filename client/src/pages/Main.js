@@ -11,6 +11,7 @@ import doRequest from "./../utils/requestHooks";
 import styles from "./styles.module.css";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 // import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
@@ -105,6 +106,7 @@ export default function MainPage() {
 				alert(
 					`Added ${state.scannedUser.name} to your list of known people`
 				);
+				getUserStats(state.user._id);
 				setState({ scannedUser: undefined });
 			},
 			onError: (err) => {}
@@ -181,6 +183,12 @@ export default function MainPage() {
 		setState({ isScanMode: false });
 	}
 
+	function handleLogout(){
+		localStorage.removeItem("token");
+		localStorage.removeItem("id");
+		window.location.reload();
+	}
+
 	return (
 		<div className={styles.mainPage}>
 			<div className={styles.userContainer}>
@@ -190,6 +198,13 @@ export default function MainPage() {
 							sx={{ fontSize: 100, color: "#004458" }}
 						/>
 					</IconButton>
+					<div className={styles.logout} onClick={() => handleLogout()}>
+						<IconButton>
+							<LogoutIcon
+								sx={{ fontSize: 20, color: "#004458" }}
+							/>
+						</IconButton>
+					</div>
 					<h3>{state.user?.name}</h3>
 					<h5>{state.user?.email}</h5>
 				</div>
