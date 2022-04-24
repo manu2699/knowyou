@@ -110,7 +110,12 @@ export default function MainPage() {
 				getUserStats(state.user._id);
 				setState({ scannedUser: undefined });
 			},
-			onError: (err) => {}
+			onError: (err) => {
+				if (typeof err === "object" && err?.[0]?.msg) {
+					alert(err[0].msg);
+				}
+				setState({ scannedUser: undefined });
+			}
 		});
 	}
 
