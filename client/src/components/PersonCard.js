@@ -1,20 +1,18 @@
-import React  from "react";
+import React from "react";
 
 import IconButton from "@mui/material/IconButton";
 import dateUtil from "./../utils/dateFormat";
 
 import styles from "./styles.module.css";
 
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import FmdGoodIcon from "@mui/icons-material/FmdGood";
 
-export default function PersonCard({ details }) {
+export default function PersonCard({ details, onLocationClick }) {
 	return (
 		<div className={styles.cardItem}>
 			<div className={styles.personIcon}>
-				<IconButton>
-					<PersonOutlineIcon
-						sx={{ fontSize: 60, color: "#004458" }}
-					/>
+				<IconButton onClick={onLocationClick}>
+					<FmdGoodIcon sx={{ fontSize: 40, color: "#004458" }} />
 				</IconButton>
 			</div>
 			<h4>{details?.user?.name}</h4>

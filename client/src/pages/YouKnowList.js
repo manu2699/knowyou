@@ -5,10 +5,12 @@ import IconButton from "@mui/material/IconButton";
 
 import doRequest from "../utils/requestHooks";
 import PersonCard from "./../components/PersonCard";
+import MapView from "../components/ViewOnMap";
 
 import styles from "./styles.module.css";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function YowKnowList() {
 	const navigate = useNavigate();
@@ -16,7 +18,8 @@ export default function YowKnowList() {
 		(oldState, newState) => ({ ...oldState, ...newState }),
 		{
 			user: {},
-			youKnow: []
+			youKnow: [],
+			selectedPerson: undefined
 		}
 	);
 
@@ -63,9 +66,43 @@ export default function YowKnowList() {
 				<div className={styles.listContainer}>
 					{state.youKnow.length > 0 &&
 						state.youKnow.map((knownMember) => (
-							<PersonCard details={knownMember} />
+							<PersonCard
+								details={knownMember}
+								onLocationClick={() =>
+									setState({ selectedPerson: knownMember })
+								}
+							/>
 						))}
 				</div>
+				{state.selectedPerson?.user?.name && (
+					<div className={`${styles.popupOverlay}`}>
+						<div
+							className={`${styles.popupContainer} ${styles.mapPopup}`}>
+							<div className={styles.spacedRow}>
+								<div className={styles.strongFont}>
+									You met {" "}{state.selectedPerson?.knownBy?.name}{" "}
+									at
+								</div>
+								<IconButton
+									onClick={() =>
+										setState({ selectedPerson: undefined })
+									}>
+									<CloseIcon
+										sx={{ fontSize: 20, color: "#004458" }}
+									/>
+								</IconButton>
+							</div>
+							{state.selectedPerson?.atLocation?.longitude &&
+							state.selectedPerson?.atLocation?.latitute ? (
+								<MapView
+									details={state.selectedPerson.atLocation}
+								/>
+							) : (
+								<p>No location details found...</p>
+							)}
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);
