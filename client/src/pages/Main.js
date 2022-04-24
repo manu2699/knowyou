@@ -4,11 +4,13 @@ import { QRCodeSVG } from "qrcode.react";
 import jsQR from "jsqr";
 
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 
 import doRequest from "./../utils/requestHooks";
 
-
 import styles from "./styles.module.css";
+
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 // import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
@@ -19,7 +21,9 @@ export default function MainPage() {
 			user: {},
 			isScanMode: false,
 			location: {},
-			scannedUser: undefined
+			scannedUser: undefined,
+			knownYou: [],
+			youKnow: []
 		}
 	);
 
@@ -29,15 +33,34 @@ export default function MainPage() {
 	useEffect(function onLoad() {
 		getUser("", (data) => {
 			setState({ user: data });
+			getUserStats(data._id);
 		});
 	}, []);
+
+	function getUserStats(userId) {
+		doRequest({
+			url: `/api/knows/knowsme/${userId}`,
+			method: "get",
+			onSuccess: (data) => {
+				setState({ knownYou: data });
+			},
+			onError: (err) => {}
+		});
+		doRequest({
+			url: `/api/knows/iknow/${userId}`,
+			method: "get",
+			onSuccess: (data) => {
+				setState({ youKnow: data });
+			},
+			onError: (err) => {}
+		});
+	}
 
 	async function getUser(userId = "", callBack) {
 		await doRequest({
 			url: `/api/user/${userId}`,
 			method: "get",
 			onSuccess: (data) => {
-				// setState({ user: data });
 				callBack && callBack(data);
 			},
 			onError: (err) => {}
@@ -50,22 +73,7 @@ export default function MainPage() {
 		});
 	}
 
-	function handleQRScan(result, error) {
-		if (!!result) {
-			alert(result?.text);
-			if (result?.text) {
-				findUser(result?.text);
-			}
-		}
-		if (!!error) {
-			console.info(error);
-		}
-	}
-
 	function onScanStart() {
-		setState({ isScanMode: true });
-		videoStreamTest();
-		// jsQRUtil(document);
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition((position) => {
 				let location = {
@@ -75,6 +83,8 @@ export default function MainPage() {
 				setState({ location });
 			});
 		}
+		setState({ isScanMode: true });
+		videoStreamTest();
 	}
 
 	function onScannedCancel() {
@@ -150,7 +160,6 @@ export default function MainPage() {
 			// const code = jsQR(stream, 400, 400);
 			if (code?.data) {
 				console.log("Found QR code", code);
-				alert(code.data);
 				findUser(code.data);
 				closeStream();
 			}
@@ -175,22 +184,23 @@ export default function MainPage() {
 	return (
 		<div className={styles.mainPage}>
 			<div className={styles.userContainer}>
-				<h3>Welcome {state.user?.name}</h3>
-				<h5>{state.user?.email}</h5>
+				<div className={styles.userCard}>
+					<IconButton>
+						<AccountCircleIcon
+							sx={{ fontSize: 100, color: "#004458" }}
+						/>
+					</IconButton>
+					<h3>{state.user?.name}</h3>
+					<h5>{state.user?.email}</h5>
+				</div>
 				<div className={styles.userStats}>
 					<div className={styles.statCard}>
+						<h3>{state.youKnow?.length || 0}</h3>
 						<h5>You know</h5>
-						<span>
-							<span className={styles.statCount}>100</span>{" "}
-							peoples
-						</span>
 					</div>
 					<div className={styles.statCard}>
-						<h5>Known you</h5>
-						<span>
-							by <span className={styles.statCount}>100</span>{" "}
-							peoples
-						</span>
+						<h3>{state.knownYou?.length || 0}</h3>
+						<h5>Known you </h5>
 					</div>
 				</div>
 				<div className={styles.qrCodeContainer}>

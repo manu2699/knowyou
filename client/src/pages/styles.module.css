@@ -12,6 +12,9 @@
 	height: 100%;
 	color: #004458;
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .loginContainer {
@@ -32,20 +35,19 @@
 }
 
 .userStats {
-	display: flex;
-	align-items: center;
-	margin: 12px 0;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin: 32px 0;
 }
 
 .statCard {
-	width: 150px;
-}
-
-.statCard:first-of-type {
-	border-right: 1px solid #004458;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .statCard:last-of-type {
+	border-inline-start: 1px solid #004458;
 	padding-inline-start: 16px;
 }
 
@@ -107,4 +109,17 @@
 .qrScannerCam {
 	width: 480px;
 	height: 500px;
+}
+
+.userCard {
+	width: 100%;
+	height: 250px;
+	background: #b3e6f6;
+	border-radius: 8px;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 -2px 16px -2px #004458;
 }

@@ -6,8 +6,6 @@ const userSchema = mongoose.Schema({
 	password: { type: String, required: true },
 	mobile: { type: String },
 	age: { type: Number },
-	knownYou: { type: Number },
-	youKnow: { type: Number }
 });
 
 module.exports = mongoose.model("knw_user", userSchema);

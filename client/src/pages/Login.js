@@ -102,7 +102,7 @@ export default function LoginPage() {
 	return (
 		<div className={styles.pageContainer}>
 			<div className={styles.loginContainer}>
-				<div className={styles.appName}>KNOWYOU</div>
+				<div className={styles.appName}>BUMPUP</div>
 				{state.isNewUser && (
 					<React.Fragment>
 						<FormControl
@@ -198,7 +198,9 @@ export default function LoginPage() {
 								<InputAdornment position='end'>
 									<IconButton
 										aria-label='toggle password visibility'
-										onClick={() => handleClickShowPassword(true)}
+										onClick={() =>
+											handleClickShowPassword(true)
+										}
 										// onMouseDown={() => handleMouseDownPassword(true)}
 										edge='end'
 										size='small'>
