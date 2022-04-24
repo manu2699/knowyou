@@ -111,9 +111,8 @@ export default function MainPage() {
 				setState({ scannedUser: undefined });
 			},
 			onError: (err) => {
-				if (typeof err === "object" && err?.[0]?.msg) {
-					alert(err[0].msg);
-				}
+				if (typeof err === "object") alert(err[0].msg);
+				else if(err) alert(err);
 				setState({ scannedUser: undefined });
 			}
 		});

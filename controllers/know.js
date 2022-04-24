@@ -2,7 +2,7 @@ const KnowListModel = require("../models/know");
 
 const newKnown = async (req, res) => {
 	try {
-		let alreadyKnown = KnowListModel.findOne({
+		let alreadyKnown = await KnowListModel.findOne({
 			knownBy: req.body.knownBy,
 			user: req.body.user
 		})
