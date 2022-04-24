@@ -285,25 +285,28 @@ export default function MainPage() {
 					</Button>
 				</div>
 
-				<Button
-					sx={{
-						m: 1,
-						width: "90%",
-						color: "#004458",
-						borderRadius: "20px",
-						p: 1,
-						background:
-							"linear-gradient(120deg, #fff, #d9f0f7, #fff)"
-					}}
-					variant='contained'
-					// endIcon={<ChevronRightIcon />}
-					onClick={() => {
-						setState({
-							selectedCategory: "youKnow"
-						});
-					}}>
-					View in map
-				</Button>
+				<div className={styles.centerColumn}>
+					<p className={styles.subdueFont2}>View </p>
+					<Button
+						sx={{
+							m: 1,
+							width: "90%",
+							color: "#004458",
+							borderRadius: "20px",
+							p: 1,
+							background:
+								"linear-gradient(120deg, #fff, #d9f0f7, #fff)"
+						}}
+						variant='contained'
+						// endIcon={<ChevronRightIcon />}
+						onClick={() => {
+							setState({
+								selectedCategory: "youKnow"
+							});
+						}}>
+						Your Map
+					</Button>
+				</div>
 
 				{state.isScanMode && (
 					<div className={styles.qrScannerOverlay}>
