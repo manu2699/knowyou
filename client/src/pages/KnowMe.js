@@ -55,9 +55,10 @@ export default function KnowMePage() {
 					<QRCodeSVG
 						value={state.user?._id}
 						fgColor='#004458'
-						size={400}
+						size={350}
 					/>
 				</div>
+				<h5>Show this QR code to someone who wish to know you...</h5>
 			</div>
 		</div>
   );

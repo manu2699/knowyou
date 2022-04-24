@@ -6,6 +6,7 @@ import jsQR from "jsqr";
 
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+import { MapView } from "../components/GoogleMaps";
 
 import doRequest from "./../utils/requestHooks";
 
@@ -14,6 +15,7 @@ import styles from "./styles.module.css";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function MainPage() {
 	const navigate = useNavigate();
@@ -25,7 +27,8 @@ export default function MainPage() {
 			location: {},
 			scannedUser: undefined,
 			knownYou: [],
-			youKnow: []
+			youKnow: [],
+			selectedCategory: undefined
 		}
 	);
 
@@ -226,6 +229,21 @@ export default function MainPage() {
 								/>
 							</IconButton>
 						</span>
+						{state.youKnow.length > 0 && (
+							<span className={styles.subdueFont}>
+								View in map
+								<IconButton
+									onClick={() => {
+										setState({
+											selectedCategory: "youKnow"
+										});
+									}}>
+									<ChevronRightIcon
+										sx={{ fontSize: 18, color: "#004458" }}
+									/>
+								</IconButton>
+							</span>
+						)}
 					</div>
 					<div className={styles.statCard}>
 						<h3>{state.knownYou?.length || 0}</h3>
@@ -238,6 +256,21 @@ export default function MainPage() {
 								/>
 							</IconButton>
 						</span>
+						{state.knownYou.length > 0 && (
+							<span className={styles.subdueFont}>
+								View in map
+								<IconButton
+									onClick={() => {
+										setState({
+											selectedCategory: "knownYou"
+										});
+									}}>
+									<ChevronRightIcon
+										sx={{ fontSize: 18, color: "#004458" }}
+									/>
+								</IconButton>
+							</span>
+						)}
 					</div>
 				</div>
 
@@ -287,6 +320,7 @@ export default function MainPage() {
 									ref={videoRef}
 									id='scanner'
 									muted
+									className={styles.qrScannerCam}
 									autoPlay></video>
 							</div>
 							<div className={styles.qrActions}>
@@ -320,6 +354,35 @@ export default function MainPage() {
 									Continue
 								</Button>
 							</div>
+						</div>
+					</div>
+				)}
+
+				{state.selectedCategory && (
+					<div className={`${styles.popupOverlay}`}>
+						<div
+							className={`${styles.popupContainer} ${styles.mapPopup}`}>
+							<div className={styles.spacedRow}>
+								<div className={styles.strongFont}>
+									{state.selectedCategory === "knownYou"
+										? "View all people who know you"
+										: "View all people you know"}
+								</div>
+								<IconButton
+									onClick={() =>
+										setState({
+											selectedCategory: undefined
+										})
+									}>
+									<CloseIcon
+										sx={{ fontSize: 20, color: "#004458" }}
+									/>
+								</IconButton>
+							</div>
+							<MapView
+								referenceKey={state.selectedCategory}
+								markers={[...state[state.selectedCategory]]}
+							/>
 						</div>
 					</div>
 				)}
