@@ -129,7 +129,7 @@ export function MapView({ location, markers = [], referenceKey }) {
 				justifyContent: "center"
 			}}>
 			{currLoc?.lat && currLoc?.lng ? (
-				<Wrapper apiKey={"AIzaSyCOyQqkB7Wr01FK5Vl3VrpiA4nJDyKrB_c"}>
+				<Wrapper apiKey={""}>
 					<Map
 						center={currLoc}
 						zoom={15}
