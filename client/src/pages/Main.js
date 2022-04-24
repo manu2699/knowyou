@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { QRCodeSVG } from "qrcode.react";
+// import { QRCodeSVG } from "qrcode.react";
 import jsQR from "jsqr";
 
 import Button from "@mui/material/Button";
@@ -16,6 +17,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 // import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 export default function MainPage() {
+	const navigate = useNavigate();
 	const [state, setState] = useReducer(
 		(oldState, newState) => ({ ...oldState, ...newState }),
 		{
@@ -183,7 +185,7 @@ export default function MainPage() {
 		setState({ isScanMode: false });
 	}
 
-	function handleLogout(){
+	function handleLogout() {
 		localStorage.removeItem("token");
 		localStorage.removeItem("id");
 		window.location.reload();
@@ -198,7 +200,9 @@ export default function MainPage() {
 							sx={{ fontSize: 100, color: "#004458" }}
 						/>
 					</IconButton>
-					<div className={styles.logout} onClick={() => handleLogout()}>
+					<div
+						className={styles.logout}
+						onClick={() => handleLogout()}>
 						<IconButton>
 							<LogoutIcon
 								sx={{ fontSize: 20, color: "#004458" }}
@@ -211,28 +215,51 @@ export default function MainPage() {
 				<div className={styles.userStats}>
 					<div className={styles.statCard}>
 						<h3>{state.youKnow?.length || 0}</h3>
-						<h5>You know</h5>
+						<p className={styles.subdueFont}>You know</p>
 					</div>
 					<div className={styles.statCard}>
 						<h3>{state.knownYou?.length || 0}</h3>
-						<h5>Known you </h5>
+						<p className={styles.subdueFont}>Known you </p>
 					</div>
 				</div>
-				<div className={styles.qrCodeContainer}>
-					<QRCodeSVG
-						value={state.user?._id}
-						bgColor='#d9f0f7'
-						fgColor='#004458'
-						size={250}
-					/>
+
+				<div className={styles.centerColumn}>
+					<p className={styles.subdueFont2}>Someone wants to </p>
+					<Button
+						sx={{
+							m: 1,
+							width: "90%",
+							color: "#004458",
+							borderRadius: "20px",
+							p: 1,
+							background:
+								"linear-gradient(120deg, #fff, #d9f0f7, #fff)"
+						}}
+						variant='contained'
+						// endIcon={<ChevronRightIcon />}
+						onClick={() => navigate("/knowme")}>
+						Know Me
+					</Button>
 				</div>
-				<Button
-					sx={{ m: 1, width: "max-width" }}
-					variant='contained'
-					// endIcon={<ChevronRightIcon />}
-					onClick={() => onScanStart()}>
-					Add knowns
-				</Button>
+
+				<div className={styles.centerColumn}>
+					<p className={styles.subdueFont2}>I want to </p>
+					<Button
+						sx={{
+							m: 1,
+							width: "90%",
+							color: "#004458",
+							borderRadius: "20px",
+							p: 1,
+							background:
+								"linear-gradient(120deg, #fff, #d9f0f7, #fff)"
+						}}
+						variant='contained'
+						// endIcon={<ChevronRightIcon />}
+						onClick={() => onScanStart()}>
+						Know Someone
+					</Button>
+				</div>
 
 				{state.isScanMode && (
 					<div className={styles.qrScannerOverlay}>
@@ -257,23 +284,25 @@ export default function MainPage() {
 				)}
 
 				{state.scannedUser?.name && state.isScanMode === false && (
-					<div className={styles.qrScannerOverlay}>
-						<div className={styles.qrScanerContainer2}>
+					<div className={styles.popupOverlay}>
+						<div className={styles.popupContainer}>
 							<h4>Know {state.scannedUser?.name}</h4>
-							<Button
-								sx={{ m: 1, width: "max-width" }}
-								variant='outlined'
-								onClick={() => onScannedCancel()}>
-								Cancel
-							</Button>
-							<Button
-								sx={{ m: 1, width: "max-width" }}
-								variant='contained'
-								onClick={() => onScannedProceed()}>
-								Continue
-							</Button>
+							<h5>{state.scannedUser?.email}</h5>
+							<div className={styles.centerRow}>
+								<Button
+									sx={{ m: 1, width: "max-width" }}
+									variant='outlined'
+									onClick={() => onScannedCancel()}>
+									Cancel
+								</Button>
+								<Button
+									sx={{ m: 1, width: "max-width" }}
+									variant='contained'
+									onClick={() => onScannedProceed()}>
+									Continue
+								</Button>
+							</div>
 						</div>
-						s
 					</div>
 				)}
 			</div>
