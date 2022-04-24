@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 
 import { Wrapper } from "@googlemaps/react-wrapper";
+import { Triangle } from "react-loader-spinner";
 
 const IMAGES = [
 	"https://www.shareicon.net/data/512x512/2015/09/18/103160_man_512x512.png",
@@ -119,8 +120,15 @@ export function MapView({ location, markers = [], referenceKey }) {
 	}, [location]);
 
 	return (
-		<div style={{ display: "flex", height: "450px", width: "100%" }}>
-			{currLoc?.lat && currLoc?.lng && (
+		<div
+			style={{
+				display: "flex",
+				height: "450px",
+				width: "100%",
+				alignItems: "center",
+				justifyContent: "center"
+			}}>
+			{currLoc?.lat && currLoc?.lng ? (
 				<Wrapper apiKey={"AIzaSyCOyQqkB7Wr01FK5Vl3VrpiA4nJDyKrB_c"}>
 					<Map
 						center={currLoc}
@@ -147,6 +155,8 @@ export function MapView({ location, markers = [], referenceKey }) {
 							})}
 					</Map>
 				</Wrapper>
+			) : (
+				<Triangle color='#004458' height={150} width={150} />
 			)}
 		</div>
 	);

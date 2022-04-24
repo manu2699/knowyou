@@ -6,6 +6,9 @@ import jsQR from "jsqr";
 
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+
 import { MapView } from "../components/GoogleMaps";
 
 import doRequest from "./../utils/requestHooks";
@@ -229,21 +232,6 @@ export default function MainPage() {
 								/>
 							</IconButton>
 						</span>
-						{state.youKnow.length > 0 && (
-							<span className={styles.subdueFont}>
-								View in map
-								<IconButton
-									onClick={() => {
-										setState({
-											selectedCategory: "youKnow"
-										});
-									}}>
-									<ChevronRightIcon
-										sx={{ fontSize: 18, color: "#004458" }}
-									/>
-								</IconButton>
-							</span>
-						)}
 					</div>
 					<div className={styles.statCard}>
 						<h3>{state.knownYou?.length || 0}</h3>
@@ -256,21 +244,6 @@ export default function MainPage() {
 								/>
 							</IconButton>
 						</span>
-						{state.knownYou.length > 0 && (
-							<span className={styles.subdueFont}>
-								View in map
-								<IconButton
-									onClick={() => {
-										setState({
-											selectedCategory: "knownYou"
-										});
-									}}>
-									<ChevronRightIcon
-										sx={{ fontSize: 18, color: "#004458" }}
-									/>
-								</IconButton>
-							</span>
-						)}
 					</div>
 				</div>
 
@@ -311,6 +284,26 @@ export default function MainPage() {
 						Know Someone
 					</Button>
 				</div>
+
+				<Button
+					sx={{
+						m: 1,
+						width: "90%",
+						color: "#004458",
+						borderRadius: "20px",
+						p: 1,
+						background:
+							"linear-gradient(120deg, #fff, #d9f0f7, #fff)"
+					}}
+					variant='contained'
+					// endIcon={<ChevronRightIcon />}
+					onClick={() => {
+						setState({
+							selectedCategory: "youKnow"
+						});
+					}}>
+					View in map
+				</Button>
 
 				{state.isScanMode && (
 					<div className={styles.qrScannerOverlay}>
@@ -363,11 +356,21 @@ export default function MainPage() {
 						<div
 							className={`${styles.popupContainer} ${styles.mapPopup}`}>
 							<div className={styles.spacedRow}>
-								<div className={styles.strongFont}>
-									{state.selectedCategory === "knownYou"
-										? "View all people who know you"
-										: "View all people you know"}
-								</div>
+								<ToggleButtonGroup
+									exclusive
+									value={state.selectedCategory}
+									onChange={(e) =>
+										setState({
+											selectedCategory: e.target.value
+										})
+									}>
+									<ToggleButton value='youKnow'>
+										You know
+									</ToggleButton>
+									<ToggleButton value='knownYou'>
+										Know you
+									</ToggleButton>
+								</ToggleButtonGroup>
 								<IconButton
 									onClick={() =>
 										setState({
@@ -380,7 +383,11 @@ export default function MainPage() {
 								</IconButton>
 							</div>
 							<MapView
-								referenceKey={state.selectedCategory}
+								referenceKey={
+									state.selectedCategory === "knownYou"
+										? "knownBy"
+										: "user"
+								}
 								markers={[...state[state.selectedCategory]]}
 							/>
 						</div>
