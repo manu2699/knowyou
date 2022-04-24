@@ -55,7 +55,7 @@ export default function KnownYouList() {
 
 	return (
 		<div className={styles.mainPage}>
-			<div className={styles.userContainer}>
+			<div className={styles.listConatiner}>
 				<div className={styles.headerContainer}>
 					<IconButton onClick={() => navigate(-1)}>
 						<ArrowBackIcon
