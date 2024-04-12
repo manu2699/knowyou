@@ -8,16 +8,16 @@ const AuthController = require("../controllers/auth");
 /**
  * @openapi
  * '/api/user/signin':
- *  post:
- *     tags:
- *     - User
- *     summary: Sign in a user
- *     requestBody:
+ *  	post:
+ *			tags:
+ *     		- User
+ *     	summary: Sign in a user
+ *     	requestBody:
  *      required: true
  *      content:
- *        application/json:
- *           schema:
- *            type: object
+ *      	application/json:
+ *        	schema:
+ *          	type: object
  *            required:
  *              - email
  *              - password
