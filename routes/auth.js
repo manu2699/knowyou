@@ -7,36 +7,36 @@ const AuthController = require("../controllers/auth");
 /** POST Methods */
 /**
  * @openapi
- * '/api/user/signin':
- *  	post:
- *			tags:
- *     		- User
- *     	summary: Sign in a user
- *     	requestBody:
- *      required: true
- *      content:
- *      	application/json:
- *        	schema:
- *          	type: object
- *            required:
- *              - email
- *              - password
- *            properties:
- *              email:
- *                type: string
- *                default: johndoe@mail.com
- *              password:
- *                type: string
- *                default: johnDoe20!@
+ * /api/user/signin:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: Sign in a user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 default: johndoe@mail.com
+ *               password:
+ *                 type: string
+ *                 default: johnDoe20!@
  *     responses:
- *      200:
- *        description: Logged in successfully
- *      400:
- *        description: Invalid Credentials
- *      404:
- *        description: Some error occured
- *      500:
- *        description: Server Error
+ *       200:
+ *         description: Logged in successfully
+ *       400:
+ *         description: Invalid Credentials
+ *       404:
+ *         description: Some error occured
+ *       500:
+ *         description: Internal Server Error
  */
 
 router.post(
@@ -49,40 +49,36 @@ router.post(
 /** POST Methods */
 /**
  * @openapi
- * '/api/user/signup':
- *  post:
+ * /api/user/signup:
+ *   post:
  *     tags:
- *     - User
+ *       - User
  *     summary: Register a new user
  *     requestBody:
- *      required: true
- *      content:
- *        application/json:
+ *       required: true
+ *       content:
+ *         application/json:
  *           schema:
- *            type: object
- *            required:
- *              - name
- *              - email
- *              - password
- *            properties:
- * 							name:
- * 								type: string
- * 						    default: John Doe
- *              email:
- *                type: string
- *                default: johndoe@mail.com
- *              password:
- *                type: string
- *                default: johnDoe20!@
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 default: johndoe@mail.com
+ *               password:
+ *                 type: string
+ *                 default: johnDoe20!@
  *     responses:
- *      200:
- *        description: Logged in successfully
- *      400:
- *        description: Invalid Credentials
- *      404:
- *        description: Some error occured
- *      500:
- *        description: Server Error
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Invalid input
+ *       409:
+ *         description: User already exists
+ *       500:
+ *         description: Internal Server Error
  */
 
 
