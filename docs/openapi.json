@@ -1,0 +1,216 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Knowyou API",
+    "description": "API endpoints knowyou services documented on swagger",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000/",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/api/user/signin": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Sign in a user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "default": "johndoe@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "default": "johnDoe20!@"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Logged in successfully"
+          },
+          "400": {
+            "description": "Invalid Credentials"
+          },
+          "404": {
+            "description": "Some error occured"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/user/signup": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "default": "johndoe@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "default": "johnDoe20!@"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "409": {
+            "description": "User already exists"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/know/": {
+      "post": {
+        "tags": [
+          "Know a user"
+        ],
+        "summary": "Connect to a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "knownBy": {
+                    "type": "string",
+                    "default": "John Doe"
+                  },
+                  "user": {
+                    "type": "string",
+                    "default": "Jane Doe"
+                  },
+                  "atLocation": {
+                    "type": "string",
+                    "default": "Chennai"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New Known added"
+          },
+          "400": {
+            "description": "Already a known user"
+          },
+          "404": {
+            "description": "Some error occurred"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/know/iknow/{userId}": {
+      "get": {
+        "tags": [
+          "Knows a user"
+        ],
+        "summary": "Get all other users known by a user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "description": "The id of the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all Known users"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/know/knowsme/{userId}": {
+      "get": {
+        "tags": [
+          "Knows a user"
+        ],
+        "summary": "Get all users who know a specific user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "description": "The id of the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all users who know the user"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

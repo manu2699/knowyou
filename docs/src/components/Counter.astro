@@ -1,0 +1,13 @@
+---
+import CounterReact from "./Counter.jsx";
+
+let message = `Hello, Astro!`;
+---
+
+<astro:fragment>
+	<h1>Hello, Astro!</h1>
+	<p>Here's a message for you:</p>
+	<p>{message}</p>
+	<!-- <CounterReact client:only='react' /> -->
+  <CounterReact client:load />
+</astro:fragment>
